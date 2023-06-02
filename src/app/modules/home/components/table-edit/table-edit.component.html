@@ -1,0 +1,61 @@
+<div class="container mt-4">
+  <form [formGroup]="carEditForm" (ngSubmit)="submitForm()">
+    <div class="row mt-2r">
+      <h2 class="mb-5">Car Edit Page</h2>
+      <div class="col-12 mb-4">
+        <mdb-form-control>
+          <input mdbInput type="text" id="id" class="form-control" formControlName="id" readonly="true" />
+          <label mdbLabel class="form-label" for="id">Id</label>
+        </mdb-form-control>
+      </div>
+      <div class="col-12 mb-4">
+        <mdb-form-control>
+          <input mdbInput type="text" id="carId" class="form-control" formControlName="carId" readonly="true" />
+          <label mdbLabel class="form-label" for="carId">Car Id</label>
+        </mdb-form-control>
+      </div>
+      <div class="col-sm-6 mb-4">
+        <div class="form-check">
+          <input mdbCheckbox class="form-check-input" type="checkbox" formArrayName="inStock" id="inStock"
+            [checked]="inStock?.value" (change)="changeInStock($event)" />
+          <label class="form-check-label" for="inStock">
+            Is in stock
+          </label>
+        </div>
+      </div>
+      <div class="col-sm-6 mb-4">
+        <mdb-form-control>
+          <label class="form-check-label">
+            Horse Power -- {{hp!.value}}
+          </label>
+          <mdb-range mdbInput [min]="100" [max]="550" [step]="1" formControlName="hp"></mdb-range>
+        </mdb-form-control>
+      </div>
+      <div class="col-12 mb-4">
+        <mdb-form-control>
+          <input mdbInput type="text" id="price" class="form-control" formControlName="price"
+            (blur)="transformAmount($event)" (focus)="transformDecimal($event)" (keypress)="validateNo($event)" />
+          <label mdbLabel class="form-label" for="price">Price</label>
+          <mdb-error *ngIf="price?.invalid && price?.touched && !price?.errors?.['required']">Price is invalid
+          </mdb-error>
+          <mdb-error *ngIf="price?.touched && price?.errors?.['required']">Price required.</mdb-error>
+        </mdb-form-control>
+      </div>
+      <div class="col-12 mb-4 text-center">
+        <div class="form-check form-check-inline" *ngFor="let col of colors">
+          <input mdbInput mdbRadio class="form-check-input" type="radio" id="color{{col.id}}" name="color"
+            formControlName="color" value="{{col.name}}" />
+          <label class="form-check-label" for="color{{col.id}}">{{col.name}}</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 text-end">
+      <button type="button" class="btn btn-secondary mx-3" [routerLink]="'/'">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary mt-4" [disabled]="carEditForm.invalid || !carEditForm.dirty ">Save
+      </button>
+    </div>
+  </form>
+</div>
